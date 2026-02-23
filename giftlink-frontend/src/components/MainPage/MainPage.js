@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {urlConfig} from '../../config';
+// Just verify: 1)gift.id vs gift._id; 2) Timestamp format (seconds vs milliseconds)
 
 function MainPage() {
     const [gifts, setGifts] = useState([]);
@@ -8,19 +9,35 @@ function MainPage() {
 
     useEffect(() => {
         // Task 1: Write async fetch operation
-        // Write your code below this line
+                // fetch all gifts
+        const fetchGifts = async () => {
+            try {
+                let url = `${urlConfig.backendUrl}/api/gifts`
+                const response = await fetch(url);
+                if (!response.ok) {
+                    //something went wrong
+                    throw new Error(`HTTP error; ${response.status}`)
+                }
+                const data = await response.json();
+                setGifts(data);
+            } catch (error) {
+                console.log('Fetch error: ' + error.message);
+            }
+        };
+
+        fetchGifts();
     }, []);
 
     // Task 2: Navigate to details page
     const goToDetailsPage = (productId) => {
-        // Write your code below this line
-
-      };
+        navigate(`/app/product/${productId}`);
+    };
 
     // Task 3: Format timestamp
-    const formatDate = (timestamp) => {
-        // Write your code below this line
-      };
+    const formatDate = (timestamp) => {//JavaScript timestamps are usually already in milliseconds.Make sure date_added is in seconds.
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric' });
+    };
 
     const getConditionClass = (condition) => {
         return condition === "New" ? "list-group-item-success" : "list-group-item-warning";
@@ -29,27 +46,33 @@ function MainPage() {
     return (
         <div className="container mt-5">
             <div className="row">
-                {gifts.map((gift) => (
+                {gifts.map((gift) => (// If API does not convert _id to id, this will break. Better to use gift._id
                     <div key={gift.id} className="col-md-4 mb-4">
                         <div className="card product-card">
 
                             {/* // Task 4: Display gift image or placeholder */}
-                            {/* // Write your code below this line */}
+                            <div className="image-placeholder">
+                               {gift.image ? (
+                                   <img src={gift.image} alt={gift.name} className="card-img-top" />
+                               ) : (
+                                   <div className="no-image-available">No Image Available</div>
+                               )}
+                            </div>
 
                             <div className="card-body">
 
-                                {/* // Task 5: Display gift image or placeholder */}
-                                {/* // Write your code below this line */}
+                                {/* // Task 5: Display gift namer */}
+                                <h5 className="card-title">{gift.name}</h5>
 
                                 <p className={`card-text ${getConditionClass(gift.condition)}`}>
                                 {gift.condition}
                                 </p>
 
-                                {/* // Task 6: Display gift image or placeholder */}
-                                {/* // Write your code below this line */}
-                                
-
-                                <button onClick={() => goToDetailsPage(gift.id)} className="btn btn-primary">
+                                {/* // Task 6: Display formatted date */}
+                                <p className="card-text date-added">{formatDate(gift.date_added)}</p>
+                                {/*<div className="card-footer">button used to be in this div in sorce code</div>*/}
+                                {/*source code had two versions of className="btn btn-primary" - one with w-100 and one without*/}
+                                <button onClick={() => goToDetailsPage(gift.id)} className="btn btn-primary w-100">
                                     View Details
                                 </button>
                             </div>
