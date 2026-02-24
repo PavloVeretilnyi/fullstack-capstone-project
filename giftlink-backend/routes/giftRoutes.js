@@ -1,7 +1,7 @@
-/*const express = require('express');
+const express = require('express');
 const router = express.Router();
 const connectToDatabase = require('../models/db');
-const logger = require('../logger');*/
+const logger = require('../logger');
 
 // Get all gifts
 router.get('/', async (req, res) => {
@@ -37,7 +37,9 @@ router.get('/:id', async (req, res) => {
         const id = req.params.id;
 
         // Task 3: Find a specific gift by ID using the collection.fineOne method and store in constant called gift
-        const gift = await collection.findOne({ id: id });
+        //const gift = await collection.findOne({ id: id }); Data imported from gifts.json may store id as a number and req.params.id is always a string
+
+        const gift = await collection.findOne({ id: parseInt(id) });
 
         if (!gift) {
             return res.status(404).send('Gift not found');
@@ -59,8 +61,10 @@ router.post('/', async (req, res, next) => {
         const db = await connectToDatabase();
         const collection = db.collection("gifts");
         const gift = await collection.insertOne(req.body);
-
-        res.status(201).json(gift.ops[0]);
+        //res.status(201).json(gift.ops[0]); gift.ops does NOT exist in modern MongoDB driver
+        res.status(201).json({
+            insertedId: gift.insertedId
+        });
     } catch (e) {
         next(e);
     }
