@@ -15,6 +15,7 @@ function DetailsPage() {
         if (!authenticationToken) {
 			// Task 1: Check for authentication and redirect
             navigate('/app/login');
+            return;
         }
 
         // get the gift to be rendered on the details page
@@ -129,21 +130,3 @@ return (
 }
 
 export default DetailsPage;
-
-/*
-Authentication Redirect Logic
-This part:
-const authenticationToken = sessionStorage.getItem('auth-token');
-if (!authenticationToken) {
-    navigate('/app/login');
-}
-Small improvement
-You should return immediately after navigate to stop execution:
-if (!authenticationToken) {
-    navigate('/app/login');
-    return;
-}
-Otherwise fetchGift() may still execute.
-
-
-*/
