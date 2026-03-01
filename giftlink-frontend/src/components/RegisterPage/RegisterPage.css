@@ -35,7 +35,7 @@
 }
 
 /* Additional styles */
-a.text-primary:hover {
+.register-card a.text-primary:hover {
     text-decoration: underline;
 }
 
