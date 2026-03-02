@@ -27,14 +27,13 @@ router.get('/', async (req, res, next) => {
             query.condition = req.query.condition; 
         }
         if (req.query.age_years) {
-            query.age_years = { $lte: parseInt(req.query.age_years) };
+            //query.age_years = { $lte: parseInt(req.query.age_years) };MongoDB behavior with NaN can be unpredictable.This prevents malformed input from breaking filtering logic.
+            const age = parseInt(req.query.age_years);
+            if (!isNaN(age)) {
+                query.age_years = { $lte: age };
+            }
         }
-        /*MongoDB behavior with NaN can be unpredictable.This prevents malformed input from breaking filtering logic.
-        const age = parseInt(req.query.age_years);
-        if (!isNaN(age)) {
-            query.age_years = { $lte: age };
-        }
-        */
+
         // Task 4: Fetch filtered gifts using the find(query) method. Make sure to use await and store the result in the `gifts` constant
         const gifts = await collection.find(query).toArray();
 
