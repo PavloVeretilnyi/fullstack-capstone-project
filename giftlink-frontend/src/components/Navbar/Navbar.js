@@ -13,22 +13,23 @@ export default function Navbar() {
                      <li className="nav-item">
                         <a className="nav-link" href="/app">Gifts</a> {/* Updated Link */}
                     </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/app/search">Search</a>
+                    </li>
                 </ul>
             </div>
         </nav>
     );
 }
+
 /*
 Issue 1: Using <a href=""> in a React Router App (Major SPA Issue)
 You wrote:
-
 <a className="nav-link" href="/app">Gifts</a>
-
 This causes:
 - Full page reload
 - React state resets
 - Breaks SPA behavior
-
 Since you’re using react-router-dom, you should use:
 import { Link } from 'react-router-dom';
 And replace <a> with <Link>:
