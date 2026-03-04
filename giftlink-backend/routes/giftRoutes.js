@@ -37,9 +37,7 @@ router.get('/:id', async (req, res) => {
         const id = req.params.id;
 
         // Task 3: Find a specific gift by ID using the collection.fineOne method and store in constant called gift
-        //const gift = await collection.findOne({ id: id }); Data imported from gifts.json may store id as a number and req.params.id is always a string
-
-        const gift = await collection.findOne({ id: parseInt(id) });
+        const gift = await collection.findOne({ id: id });
 
         if (!gift) {
             return res.status(404).send('Gift not found');
