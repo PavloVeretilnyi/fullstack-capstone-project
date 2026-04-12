@@ -1,4 +1,3 @@
-/*jshint esversion: 8 */
 const express = require('express');
 const router = express.Router();
 const connectToDatabase = require('../models/db');
@@ -28,7 +27,6 @@ router.get('/', async (req, res, next) => {
             query.condition = req.query.condition; 
         }
         if (req.query.age_years) {
-            //query.age_years = { $lte: parseInt(req.query.age_years) };MongoDB behavior with NaN can be unpredictable.This prevents malformed input from breaking filtering logic.
             const age = parseInt(req.query.age_years);
             if (!isNaN(age)) {
                 query.age_years = { $lte: age };

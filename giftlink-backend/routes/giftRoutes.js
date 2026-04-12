@@ -1,8 +1,6 @@
-/*jshint esversion: 8 */
 const express = require('express');
 const router = express.Router();
 const connectToDatabase = require('../models/db');
-const logger = require('../logger');
 
 // Get all gifts
 router.get('/', async (req, res) => {
@@ -21,8 +19,6 @@ router.get('/', async (req, res) => {
     } catch (e) {
         console.error('Error fetching gifts:', e);
         res.status(500).send('Error fetching gifts');
-        /*logger.console.error('oops something went wrong', e);
-        next(e);*/
     }
 });
 
@@ -48,7 +44,6 @@ router.get('/:id', async (req, res) => {
     } catch (e) {
         console.error('Error fetching gift:', e);
         res.status(500).send('Error fetching gift');
-        // next(e);
     }
 });
 
@@ -60,7 +55,6 @@ router.post('/', async (req, res, next) => {
         const db = await connectToDatabase();
         const collection = db.collection("gifts");
         const gift = await collection.insertOne(req.body);
-        //res.status(201).json(gift.ops[0]); gift.ops does NOT exist in modern MongoDB driver
         res.status(201).json({
             insertedId: gift.insertedId
         });
