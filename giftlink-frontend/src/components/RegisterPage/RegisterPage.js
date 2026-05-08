@@ -86,7 +86,7 @@ function RegisterPage() {
                             <label htmlFor="email" className="form-label">Email</label>
                             <input
                                 id="email"
-                                type="email"//type="text"
+                                type="email"
                                 className="form-control"
                                 placeholder="Enter your email"
                                 value={email}
@@ -119,53 +119,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
-
-/*
-🚨 1️⃣ Major Issue: No response.ok Check
-Right now you do:
-const json = await response.json();
-If backend returns 400 or 500, this can cause problems.
-You should check:
-if (!response.ok)
-Otherwise:
-500 errors may crash JSON parsing
-You rely only on json.error
-✅ FIX
-Change this part:
-const json = await response.json();
-To:
-const json = await response.json();
-if (!response.ok) {
-    setShowerr(json.error || "Registration failed");
-    return;
-}
-
-🚨 2️⃣ Possible Crash if Backend Returns Non-JSON
-If your backend ever returns:
-res.status(500).send("Internal server error");
-That is NOT JSON.
-Then this line:
-const json = await response.json();
-Will throw an error.
-Your catch block will catch it, but user won’t see the error.
-Better:
-let json;
-try {
-    json = await response.json();
-} catch {
-    setShowerr("Server error");
-    return;
-}
-
-⚠ 4️⃣ Using <a href> Instead of <Link>
-This:
-<a href="/app/login">
-Will cause FULL page reload.
-Better:
-import { Link } from 'react-router-dom';
-<Link to="/app/login" className="text-primary">Login</Link>
-Cleaner SPA behavior.
-
-
-
-*/

@@ -52,21 +52,3 @@ app.get("/",(req,res)=>{
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
-/*
-⚠ This line is incorrect:
-app.use("*",cors());
-This is not needed.
-✅ Correct way:
-app.use(cors());
-
-⚠ Double Logger Setup
-You use:
-const pinoLogger = require('./logger');
-const logger = require('./logger');
-This is redundant.
-Keep only one:
-const logger = require('./logger');
-
-
-*/

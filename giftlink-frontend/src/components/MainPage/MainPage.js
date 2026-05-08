@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {urlConfig} from '../../config';
-// Just verify: 1)gift.id vs gift._id; 2) Timestamp format (seconds vs milliseconds)
 
 function MainPage() {
     const [gifts, setGifts] = useState([]);
@@ -46,7 +45,7 @@ function MainPage() {
     return (
         <div className="container mt-5">
             <div className="row">
-                {gifts.map((gift) => (// If API does not convert _id to id, this will break. Better to use gift._id
+                {gifts.map((gift) => (
                     <div key={gift.id} className="col-md-4 mb-4">
                         <div className="card product-card">
 
